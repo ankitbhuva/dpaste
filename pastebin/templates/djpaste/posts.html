@@ -1,0 +1,17 @@
+{% extends 'djpaste/base.html' %}
+{% block content %}
+<div id="help">
+    <p>
+	{% for post in posts %}
+    <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1></p>
+    <p>{{ post.text }}</p>
+    {% endfor %}
+    <br /> <br />
+    {% if page.has_previous %}
+    <a href="/{{ page.previous_page_number }}/">Previous page</a>
+    {% endif %}
+    {% if page.has_next %}
+    <a href="/{{ page.next_page_number }}/">Next page</a>
+    {% endif %}
+</div>
+{% endblock %}
