@@ -15,6 +15,19 @@
   function place_focus(){
   }
   </script>
+  <style type="text/css">
+    #nav{
+    }
+    #nav ul{
+        height:100px;
+        width:200px;
+        list-style-type:none;
+    }
+    #nav li{
+        display:inline;
+        padding:10px;
+    }
+  </style>
   {% endblock %}
 </head>
 
@@ -25,7 +38,7 @@
   <h1>
     Djpaste
   </h1>
-  {% endblock %}
+   {% endblock %}
   </div>
 
 
@@ -36,7 +49,7 @@
 <div id="footer">
   {% block footer %}
   <span class="blurb">
-      <a href="{% url 'djpaste_help' %}">How to paste?</a> | <a href="{% url 'djpaste_index' %}">New Paste</a> | <a href="{% url 'blog_posts' %}">Blog</a> | <a href="">Blog Archives</a> | <a href="http://github.com/ankitbhuva/djpaste-with-blog">Github</a>
+      <a href="{% url 'djpaste_help' %}">How to paste?</a> | <a href="{% url 'djpaste_index' %}">New Paste</a> | <a href="{% url 'blog_posts' %}">Blog</a> | <a href="{% url 'djpaste_archives' %}"> Blog Archives </a> | <a href="http://github.com/ankitbhuva/dpaste">Github</a>
   </span>
   {% endblock %}
 </div>

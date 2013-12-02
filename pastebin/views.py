@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.views.generic.base import View
@@ -32,6 +32,10 @@ def getPost(request, postSlug):
     # display specified post
     return render_to_response('single.html', {'posts':post})
 
+def postarchive(request):
+    posts = Post.objects.all().order_by('-pub_date')
+
+    return render_to_response('archive.html', {'posts':posts})
 
 class FormIndex(View):
     form_class = PasteForm
@@ -49,15 +53,31 @@ class FormIndex(View):
             self.initial['name'] = ''
         form = self.form_class(initial=self.initial)
         self.payload['form'] = form
+
         return render_to_response('djpaste/create.html', self.payload, RequestContext(request))
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            paste = form.save()
-            request.session['language'] = form.cleaned_data['language']
-            request.session['name'] = form.cleaned_data['name']
-            return HttpResponseRedirect(paste.get_absolute_url())
+
+        if request.method == "POST":
+
+            form = self.form_class(request.POST)
+            if(form.is_valid()):
+               # try:
+                    paste = form.save()
+                    request.session['language'] = form.cleaned_data['language']
+                    request.session['name'] = form.cleaned_data['name']
+                    return HttpResponseRedirect(paste.get_absolute_url())
+                   # return redirect('/')
+                #except:
+                 #   pass
+            else:
+                form = self.form_class()
+
+#            return render_to_response('djpaste/create.html',
+#                    { form: PasteForm() },
+#                    context_instance = RequestContext(request))
+#            return HttpResponseRedirect(paste.get_absolute_url())
+            return render_to_response('djpaste/error.html', RequestContext(request))
 
 index = FormIndex.as_view()
 
@@ -82,3 +102,4 @@ class Html(View):
         return HttpResponse(paste.htmld_text, mimetype= "text/plain")
 
 html = Html.as_view()
+

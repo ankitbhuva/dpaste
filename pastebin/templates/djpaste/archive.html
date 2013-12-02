@@ -1,0 +1,9 @@
+{% extends 'djpaste/base.html' %}
+{% block content %}
+<div id="help">
+    <p>
+	{% for post in posts %}
+    <h1><a href="{{ post.get_absolute_url }}">{{ post.title }} <nbsp> Posted on : {{ post.pub_date }} </a></h1></p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -16,7 +16,7 @@ class Post(models.Model):
 
 
 class CodePaste(models.Model):
-    text = models.TextField()
+    text = models.TextField(blank=True)
     htmld_text = models.TextField()
     language = models.CharField(max_length=30)
     title = models.CharField(max_length=50)
@@ -41,6 +41,9 @@ class CodePaste(models.Model):
         self.htmld_text = htmlize(self.text, self.language)
         super(CodePaste, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return self.title
+
 
 def htmlize(text, language):
     from pygments import highlight
@@ -61,6 +64,12 @@ def htmlize(text, language):
         from pygments.lexers import HtmlDjangoLexer as Lexer
     elif language == 'Html':
         from pygments.lexers import HtmlLexer as Lexer
+    elif language == 'Cobol':
+        from pygments.lexers import CobolLexer as Lexer
+    elif language == 'CSharpAspx':
+        from pygments.lexers import CSharpAspxLexer as Lexer
+    elif language == 'CSharp':
+        from pygments.lexers import CSharpLexer as Lexer
     else:
         from pygments.lexers import TextLexer as Lexer
     """
@@ -73,5 +82,4 @@ def htmlize(text, language):
     """
     htmld = highlight(text, Lexer(), Formatter(linenos='table'))
     return htmld
-
 
